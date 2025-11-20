@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Secrets
+.env
+*.key
+*.pem
+k8s/openai-secret.yaml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Kubernetes
+*.log

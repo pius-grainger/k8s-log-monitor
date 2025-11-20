@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: error-patterns
+  namespace: monitoring
+data:
+  patterns.json: |
+    {
+      "patterns": [
+        {
+          "name": "OutOfMemory",
+          "regex": "OutOfMemoryError|OOMKilled|out of memory|Java heap space|GC overhead limit exceeded",
+          "severity": "critical"
+        },
+        {
+          "name": "ConnectionTimeout",
+          "regex": "connection timeout|connection refused|timeout exceeded|timed out after",
+          "severity": "high"
+        },
+        {
+          "name": "NetworkError",
+          "regex": "connection reset by peer|broken pipe|network is unreachable|host is unreachable|no route to host",
+          "severity": "high"
+        },
+        {
+          "name": "DatabaseError",
+          "regex": "database connection failed|sql error|deadlock detected|ORA-\\d+|SQLSTATE\\[[0-9A-Z]+\\]|could not obtain lock|cannot insert duplicate key",
+          "severity": "high"
+        },
+        {
+          "name": "AuthenticationFailure",
+          "regex": "authentication failed|unauthorized|invalid credentials|login failed|failed to authenticate user|token expired",
+          "severity": "medium"
+        },
+        {
+          "name": "AuthorizationFailure",
+          "regex": "access denied|forbidden|insufficient permissions|permission denied",
+          "severity": "medium"
+        },
+        {
+          "name": "HTTP5xx",
+          "regex": "HTTP [^ ]+ (500|501|502|503|504)|status=(500|501|502|503|504)|upstream sent too big header",
+          "severity": "high"
+        },
+        {
+          "name": "HTTP4xxClientErrors",
+          "regex": "HTTP [^ ]+ (400|401|403|404|429)|status=(400|401|403|404|429)",
+          "severity": "medium"
+        },
+        {
+          "name": "DiskFull",
+          "regex": "No space left on device|disk quota exceeded|ENOSPC",
+          "severity": "critical"
+        },
+        {
+          "name": "ReadOnlyFilesystem",
+          "regex": "Read-only file system|EROFS",
+          "severity": "high"
+        },
+        {
+          "name": "KubernetesCrashLoop",
+          "regex": "CrashLoopBackOff|Back-off restarting failed container|Error: failed to start container",
+          "severity": "critical"
+        },
+        {
+          "name": "KubernetesImagePull",
+          "regex": "ErrImagePull|ImagePullBackOff|failed to pull image|Back-off pulling image",
+          "severity": "high"
+        },
+        {
+          "name": "KubernetesProbeFailures",
+          "regex": "Readiness probe failed|Liveness probe failed|Startup probe failed",
+          "severity": "high"
+        },
+        {
+          "name": "KubernetesOOMEvents",
+          "regex": "Memory cgroup out of memory|killed process .* due to memory\\s+overage",
+          "severity": "critical"
+        },
+        {
+          "name": "TLSOrSSLError",
+          "regex": "SSLHandshakeException|certificate verify failed|unable to verify the first certificate|PKIX path building failed|SSL routines",
+          "severity": "high"
+        },
+        {
+          "name": "ThreadDeadlock",
+          "regex": "deadlock detected|Found one Java-level deadlock",
+          "severity": "high"
+        },
+        {
+          "name": "GenericApplicationException",
+          "regex": "Unhandled exception|uncaught exception|panic:|Traceback \\(most recent call last\\)",
+          "severity": "high"
+        }
+      ]
+    }

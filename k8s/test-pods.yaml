@@ -1,0 +1,108 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: oom-error-pod
+  namespace: default
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ["sh", "-c"]
+    args:
+    - |
+      while true; do
+        echo "$(date) Application running normally"
+        sleep 5
+        echo "$(date) ERROR: OutOfMemoryError: Java heap space"
+        echo "$(date) ERROR: GC overhead limit exceeded"
+        sleep 10
+      done
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: connection-error-pod
+  namespace: default
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ["sh", "-c"]
+    args:
+    - |
+      while true; do
+        echo "$(date) Attempting to connect to database..."
+        sleep 3
+        echo "$(date) ERROR: connection timeout exceeded"
+        echo "$(date) ERROR: database connection failed"
+        echo "$(date) ERROR: connection refused"
+        sleep 10
+      done
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: auth-error-pod
+  namespace: default
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ["sh", "-c"]
+    args:
+    - |
+      while true; do
+        echo "$(date) User login attempt"
+        sleep 2
+        echo "$(date) ERROR: authentication failed"
+        echo "$(date) ERROR: invalid credentials"
+        echo "$(date) ERROR: access denied"
+        sleep 15
+      done
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: http-error-pod
+  namespace: default
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ["sh", "-c"]
+    args:
+    - |
+      while true; do
+        echo "$(date) Processing request..."
+        sleep 4
+        echo "$(date) ERROR: HTTP 500 Internal Server Error"
+        echo "$(date) ERROR: HTTP 503 Service Unavailable"
+        echo "$(date) ERROR: upstream sent too big header"
+        sleep 12
+      done
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: disk-error-pod
+  namespace: default
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ["sh", "-c"]
+    args:
+    - |
+      while true; do
+        echo "$(date) Writing to disk..."
+        sleep 3
+        echo "$(date) ERROR: No space left on device"
+        echo "$(date) ERROR: disk quota exceeded"
+        sleep 20
+      done
+  restartPolicy: Never

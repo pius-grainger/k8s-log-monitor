@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-monitor
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-monitor
+  template:
+    metadata:
+      labels:
+        app: log-monitor
+    spec:
+      serviceAccountName: log-monitor
+      containers:
+      - name: monitor
+        image: log-monitor:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: TARGET_NAMESPACES
+          value: "default,production,staging"
+        - name: ENABLE_LLM_RECOMMENDATIONS
+          value: "true"
+        envFrom:
+        - secretRef:
+            name: openai-secret
+        volumeMounts:
+        - name: patterns
+          mountPath: /config
+      volumes:
+      - name: patterns
+        configMap:
+          name: error-patterns

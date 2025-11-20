@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: log-monitor
+  namespace: monitoring
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_ID>:role/log-monitor-bedrock-role
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: log-monitor
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: log-monitor
+subjects:
+- kind: ServiceAccount
+  name: log-monitor
+  namespace: monitoring
+roleRef:
+  kind: ClusterRole
+  name: log-monitor
+  apiGroup: rbac.authorization.k8s.io
