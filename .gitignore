@@ -23,6 +23,7 @@ build/
 *.key
 *.pem
 k8s/openai-secret.yaml
+!k8s/openai-secret.yaml.example
 
 # OS
 .DS_Store
